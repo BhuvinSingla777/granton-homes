@@ -1,2 +1,63 @@
-node_modules
-node_modules
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+.output/
+.vinxi/
+.vercel/
+
+# TanStack / Nitro
+.tanstack/
+.nitro/
+
+# Cloudflare Wrangler
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local overrides
+*.local
+
+# Test & coverage
+coverage/
+.nyc_output/
+
+# Caches
+.cache/
+*.tsbuildinfo
+.eslintcache
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+*.swp
+*.swo
+*~
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Optional: keep lockfile you use (uncomment the one you do NOT use)
+# package-lock.json
+# bun.lock
