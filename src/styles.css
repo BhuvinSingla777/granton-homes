@@ -1,0 +1,188 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Granton Homes — Luxury design system
+ * Palette: warm ivory, deep espresso, brushed gold, sage
+ * Type: Playfair Display (headings) + Inter (body)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-granton: "Montserrat", var(--font-sans);
+
+  --color-granton-navy: #001030;
+  --color-granton-surface: #f4f7f9;
+  --color-granton-muted: #4a5f7a;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.985 0.008 85);            /* warm ivory */
+  --foreground: oklch(0.22 0.012 60);             /* near-black espresso */
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.012 60);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.012 60);
+
+  --primary: oklch(0.24 0.018 55);                /* deep espresso */
+  --primary-foreground: oklch(0.98 0.008 85);
+
+  --secondary: oklch(0.94 0.015 80);              /* light sand */
+  --secondary-foreground: oklch(0.24 0.018 55);
+
+  --muted: oklch(0.94 0.012 80);
+  --muted-foreground: oklch(0.48 0.015 65);
+
+  --accent: oklch(0.92 0.025 80);
+  --accent-foreground: oklch(0.24 0.018 55);
+
+  --gold: oklch(0.74 0.13 78);                    /* brushed gold */
+  --gold-foreground: oklch(0.22 0.012 60);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.88 0.012 80);
+  --input: oklch(0.88 0.012 80);
+  --ring: oklch(0.74 0.13 78);
+}
+
+.dark {
+  --background: oklch(0.16 0.012 60);
+  --foreground: oklch(0.96 0.008 85);
+  --card: oklch(0.2 0.012 60);
+  --card-foreground: oklch(0.96 0.008 85);
+  --popover: oklch(0.2 0.012 60);
+  --popover-foreground: oklch(0.96 0.008 85);
+  --primary: oklch(0.96 0.008 85);
+  --primary-foreground: oklch(0.22 0.012 60);
+  --secondary: oklch(0.26 0.012 60);
+  --secondary-foreground: oklch(0.96 0.008 85);
+  --muted: oklch(0.26 0.012 60);
+  --muted-foreground: oklch(0.72 0.015 70);
+  --accent: oklch(0.28 0.018 65);
+  --accent-foreground: oklch(0.96 0.008 85);
+  --gold: oklch(0.78 0.14 80);
+  --gold-foreground: oklch(0.16 0.012 60);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.78 0.14 80);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .container-luxe { @apply mx-auto w-full max-w-7xl px-6 lg:px-10; }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.28em];
+    color: var(--color-gold);
+  }
+  .eyebrow::before {
+    content: ""; width: 28px; height: 1px;
+    background: currentColor; display: inline-block;
+  }
+  .gold-underline {
+    background-image: linear-gradient(var(--color-gold), var(--color-gold));
+    background-position: 0 100%; background-repeat: no-repeat;
+    background-size: 0 1px; transition: background-size .4s ease;
+  }
+  .gold-underline:hover { background-size: 100% 1px; }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] transition-all;
+    background: var(--color-gold); color: var(--color-gold-foreground);
+    border: 1px solid var(--color-gold);
+  }
+  .btn-gold:hover { filter: brightness(0.95); transform: translateY(-1px); box-shadow: 0 12px 30px -12px oklch(0.74 0.13 78 / 0.55); }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] transition-all;
+    background: transparent; color: var(--color-foreground);
+    border: 1px solid var(--color-foreground);
+  }
+  .btn-ghost:hover { background: var(--color-foreground); color: var(--color-background); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Granton gallery — sans-serif navy on cool grey (matches grantonhomes.com.au) */
+  .gallery-theme {
+    background-color: var(--color-granton-surface);
+    color: var(--color-granton-navy);
+    font-family: var(--font-granton);
+  }
+  .gallery-theme h1,
+  .gallery-theme h2,
+  .gallery-theme h3 {
+    font-family: var(--font-granton);
+    color: var(--color-granton-navy);
+    letter-spacing: 0.02em;
+  }
+  .gallery-heading {
+    font-family: var(--font-granton);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.2;
+    color: var(--color-granton-navy);
+    letter-spacing: 0.02em;
+  }
+  .gallery-muted {
+    color: var(--color-granton-muted);
+  }
+}
+
+@keyframes ken-burns { 0% { transform: scale(1.05);} 100% { transform: scale(1.15);} }
+.ken-burns { animation: ken-burns 18s ease-in-out infinite alternate; }
