@@ -55,7 +55,7 @@ function renderErrorPage() {
 let serverEntryPromise;
 async function getServerEntry() {
   if (!serverEntryPromise) {
-    serverEntryPromise = import('./assets/server-LkwB2fso.js').then(n => n._).then(
+    serverEntryPromise = import('./server-LkwB2fso.mjs').then(n => n._).then(
       (m) => m.default ?? m
     );
   }
