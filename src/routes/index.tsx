@@ -1,150 +1,266 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Award, Bath, BedDouble, Car, Maximize, Phone, Play, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { SiteShell, PageHero } from "@/components/site/SiteShell";
-import { Reveal } from "@/components/site/Reveal";
+import { GalleryShowcase } from "@/components/site/GalleryShowcase";
+import { SiteShell } from "@/components/site/SiteShell";
 import { VideoModal } from "@/components/site/VideoModal";
-import heroKitchen from "@/assets/hero-kitchen.jpg";
-import soulmate from "@/assets/design-soulmate.jpg";
-import monaco from "@/assets/design-monaco.jpg";
-import french from "@/assets/design-french.jpg";
-import chateau from "@/assets/design-chateau.jpg";
+import { GALLERY_IMAGES } from "@/lib/gallery-images";
+
+const HERO_IMAGE = "https://grantonhomes.com.au/wp-content/uploads/2022/03/slierb.jpg";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const DESIGNS = [
-  { name: "Soulmate", img: soulmate, beds: 4, baths: 4, cars: 2, sqm: "580sqm", to: "/home-designs#soulmate" },
-  { name: "The Monaco", img: monaco, beds: 4, baths: 2, cars: 3, sqm: "—", to: "/home-designs#monaco" },
-  { name: "The French Provincial", img: french, beds: 4, baths: 4, cars: 2, sqm: "620sqm", to: "/home-designs#french", featured: true, priceFrom: "$1.45M" },
-  { name: "The Chateau", img: chateau, beds: 5, baths: 5, cars: 4, sqm: "—", to: "/home-designs#chateau" },
-];
+const primaryBtnClass =
+  "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-normal text-white bg-[#c9a227] border border-[#c9a227] hover:brightness-95 transition";
+
+const secondaryBtnClass =
+  "inline-flex items-center justify-center px-6 py-3 text-sm font-normal text-[#c9a227] bg-transparent border border-[#c9a227] hover:bg-[#c9a227]/10 transition";
+
+const ADVANTAGES = [
+  {
+    title: "Premium Inclusions as Standard",
+    body: "We offer a level of luxury far beyond typical industry standards, with inclusions that elevate your living experience.",
+  },
+  {
+    title: "Thoughtfully Designed Spaces",
+    body: "Enjoy popular and practical features such as a gourmet kitchen, adjacent formal dining area, and a stunning curved staircase leading to a luxurious master suite with his and hers walk-in wardrobes.",
+  },
+  {
+    title: "Truly Custom Builds",
+    body: "Every Granton Homes project is a bespoke creation—tailored to suit your lifestyle, taste, and site. Say goodbye to restrictive floorplans and standard layouts.",
+  },
+  {
+    title: "Exceptional Finishes",
+    body: "From high-end materials and finishes to custom-forged ironwork, your home will reflect craftsmanship and sophistication in every detail.",
+  },
+  {
+    title: "Flexible Build Options",
+    body: "Whether you're starting from a vacant block or undertaking a knockdown rebuild, we provide tailored solutions to suit your needs.",
+  },
+  {
+    title: "Expertise in Challenging Sites",
+    body: "Our team specialises in building on difficult terrain and restricted-access locations—bringing your vision to life, no matter the complexity.",
+  },
+  {
+    title: "Master Craftsmanship",
+    body: "With Granton Homes, you can expect outstanding workmanship and a flawless finish in every home we build.",
+  },
+  {
+    title: "Modern Features & Smart Technology",
+    body: "Enjoy advanced inclusions such as next-generation alarm systems, smart home integration, custom joinery throughout, energy-efficient LED lighting, and more.",
+  },
+  {
+    title: "Timeless French Provincial Style",
+    body: "We are renowned for our elegant, French Provincial-inspired homes—offering a blend of timeless beauty and modern luxury.",
+  },
+] as const;
+
+const enquiryInputClass =
+  "mt-2 w-full border border-[#d8e0e8] bg-white px-4 py-3 text-sm text-[#001030] placeholder:text-[#4a5f7a]/60 focus:border-[#c9a227] focus:outline-none transition";
 
 function HomePage() {
   const [videoOpen, setVideoOpen] = useState(false);
+  const [enquirySent, setEnquirySent] = useState(false);
 
   return (
     <SiteShell>
-      <PageHero
-        eyebrow="Crafting Distinctive Residences"
-        title="Homes tailored to the way you live."
-        subtitle="Award-winning standard designs, custom architecture, and a personalised journey from concept to keys."
-        image={heroKitchen}
-      />
+      <section className="relative min-h-[min(92vh,900px)] flex items-center justify-center overflow-hidden">
+        <img
+          src={HERO_IMAGE}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50" aria-hidden />
 
-      {/* Intro */}
-      <section className="container-luxe py-24 lg:py-32 grid lg:grid-cols-12 gap-12">
-        <Reveal className="lg:col-span-5">
-          <div className="eyebrow">About Us</div>
-          <h2 className="mt-5 font-serif text-4xl lg:text-5xl leading-tight">
-            Your dream home, <em className="text-gold not-italic">built around you.</em>
-          </h2>
-        </Reveal>
-        <Reveal delay={120} className="lg:col-span-7 lg:pt-4">
-          <p className="text-lg leading-relaxed text-foreground/80">
-            Whether you are planning to build your dream home on a vacant block or you are considering a
-            complete knock down rebuild, our philosophy is based on servicing your belief and welcoming
-            your involvement throughout the design and planning process so that your home is tailored to
-            fit your lifestyle.
+        <div className="container-luxe relative z-10 px-6 py-28 sm:py-32 text-center text-white max-w-5xl font-[Montserrat,sans-serif]">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold uppercase leading-tight tracking-wide">
+            Your dream home, built to match your exact tastes, needs &amp; lifestyle
+          </h1>
+          <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl font-normal leading-relaxed text-white/95 max-w-3xl mx-auto">
+            Granton Homes provides a premier &ldquo;Custom Build&rdquo; experience to those seeking to
+            create a classic, timeless luxury home.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/about-us" className="btn-gold">Discover Granton <ArrowRight className="h-4 w-4" /></Link>
-            <button onClick={() => setVideoOpen(true)} className="btn-ghost"><Play className="h-4 w-4" /> Watch the film</button>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+            <button type="button" onClick={() => setVideoOpen(true)} className={primaryBtnClass}>
+              <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+              Watch Walkthrough Video
+            </button>
+            <a href="tel:1300318699" className={secondaryBtnClass}>
+              Call Now: 1300 318 699
+            </a>
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* Pillars */}
-      <section className="bg-secondary py-24">
-        <div className="container-luxe">
-          <Reveal className="max-w-2xl">
-            <div className="eyebrow">Our Philosophy</div>
-            <h2 className="mt-4 font-serif text-4xl lg:text-5xl">Quality is not an act — it is a habit.</h2>
-          </Reveal>
-          <div className="mt-16 grid md:grid-cols-3 gap-10">
-            {[
-              { Icon: Award, title: "Award-winning design", body: "A diverse range of award-winning standard plans, every one of them tailorable to your lifestyle." },
-              { Icon: Sparkles, title: "Bespoke craftsmanship", body: "Premium inclusions, considered detailing, and finishes that hold up to a lifetime of living." },
-              { Icon: ShieldCheck, title: "End-to-end care", body: "We manage approvals, documentation and certification so your journey is seamless." },
-            ].map(({ Icon, title, body }, i) => (
-              <Reveal key={title} delay={i * 120}>
-                <div className="group h-full border border-border bg-card p-8 lg:p-10 transition-all hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.25)]">
-                  <Icon className="h-7 w-7 text-gold" />
-                  <h3 className="mt-6 font-serif text-2xl">{title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+      <section className="gallery-theme py-16 sm:py-20 lg:py-24">
+        <div className="container-luxe px-6">
+          <article className="mx-auto max-w-6xl overflow-hidden rounded-xl bg-white shadow-[0_12px_40px_-12px_rgba(0,16,48,0.18)] grid lg:grid-cols-2">
+            <div className="relative min-h-[280px] lg:min-h-full">
+              <img
+                src={HERO_IMAGE}
+                alt="Granton Homes luxury residence"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-12 font-[Montserrat,sans-serif]">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#001030] tracking-wide">
+                About Granton Homes
+              </h2>
+              <div className="mt-6 space-y-5 text-base sm:text-lg leading-relaxed gallery-muted font-normal">
+                <p>
+                  At Granton Homes, our work embodies the highest standards of design excellence,
+                  combining refined elegance with meticulous attention to detail. Each home we create
+                  strikes the perfect balance between functionality, character, and timeless charm.
+                </p>
+                <p>
+                  Every design is thoughtfully tailored to reflect the individual needs, aspirations,
+                  and lifestyle of our clients—while remaining sensitive to the unique environment in
+                  which it is built.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="granton-textured-bg py-16 sm:py-20 lg:py-24 font-[Montserrat,sans-serif]">
+        <div className="container-luxe px-6">
+          <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold text-[#001030] tracking-wide">
+            The Granton Homes Advantage
+          </h2>
+
+          <ul className="mt-12 sm:mt-14 grid gap-10 md:grid-cols-2 lg:gap-x-14 lg:gap-y-12 max-w-6xl mx-auto">
+            {ADVANTAGES.map((item) => (
+              <li key={item.title} className="flex gap-4 sm:gap-5">
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center border border-[#c9a227]/50 bg-white/80 text-lg font-bold text-[#c9a227] shadow-sm"
+                  aria-hidden
+                >
+                  N
+                </span>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-[#001030] leading-snug">{item.title}</h3>
+                  <p className="mt-2 text-base leading-relaxed text-[#4a5f7a] font-normal">{item.body}</p>
                 </div>
-              </Reveal>
+              </li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="gallery-theme py-16 sm:py-20 lg:pb-24">
+        <div className="container-luxe px-6">
+          <div className="text-center font-[Montserrat,sans-serif]">
+            <h2 className="gallery-heading">Gallery</h2>
+            <p className="gallery-muted mt-4 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto">
+              Photos are of our display home in Kellyville NSW.
+            </p>
+          </div>
+
+          <div className="mt-10 sm:mt-12">
+            <GalleryShowcase images={[...GALLERY_IMAGES]} />
           </div>
         </div>
       </section>
 
-      {/* Signature designs */}
-      <section className="container-luxe py-24 lg:py-32">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
-          <Reveal>
-            <div className="eyebrow">Our Signature Designs</div>
-            <h2 className="mt-4 font-serif text-4xl lg:text-5xl max-w-xl">Four homes. Endless possibilities.</h2>
-          </Reveal>
-          <Reveal delay={120}>
-            <Link to="/home-designs" className="text-sm uppercase tracking-[0.2em] gold-underline hover:text-gold">
-              View all designs →
-            </Link>
-          </Reveal>
-        </div>
+      <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28">
+        <img
+          src={HERO_IMAGE}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[#001030]/55" aria-hidden />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {DESIGNS.map((d, i) => (
-            <Reveal key={d.name} delay={i * 90}>
-              <article className="group relative overflow-hidden bg-card border border-border h-full flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img src={d.img} alt={d.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
-                </div>
-                {d.featured && (
-                  <div className="absolute top-4 left-4 bg-gold text-gold-foreground text-[10px] uppercase tracking-[0.2em] px-3 py-1.5">From {d.priceFrom}</div>
-                )}
-                <div className="p-6 flex flex-col gap-4 flex-1">
-                  <div>
-                    <h3 className="font-serif text-xl">{d.name}</h3>
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mt-1">Available</div>
-                  </div>
-                  <div className="flex items-center gap-4 text-xs text-foreground/80">
-                    <span className="flex items-center gap-1.5"><BedDouble className="h-4 w-4 text-gold" />{d.beds}</span>
-                    <span className="flex items-center gap-1.5"><Bath className="h-4 w-4 text-gold" />{d.baths}</span>
-                    <span className="flex items-center gap-1.5"><Car className="h-4 w-4 text-gold" />{d.cars}</span>
-                    <span className="flex items-center gap-1.5"><Maximize className="h-4 w-4 text-gold" />{d.sqm}</span>
-                  </div>
-                  <Link to={d.to} className="mt-auto inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-foreground hover:text-gold transition">
-                    View design <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA band */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroKitchen} alt="" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-[oklch(0.18_0.012_60)]/82" />
-        </div>
-        <div className="container-luxe relative py-24 lg:py-32 text-white text-center">
-          <Reveal>
-            <div className="eyebrow !text-gold justify-center">Ready to begin?</div>
-            <h2 className="mt-4 font-serif text-4xl lg:text-6xl max-w-3xl mx-auto">A home of true distinction begins with a conversation.</h2>
-            <p className="mt-6 max-w-xl mx-auto text-white/75">
-              Speak with our design team about your vision, your block, or a knock down rebuild.
+        <div className="container-luxe relative z-10 px-6">
+          <div className="mx-auto max-w-3xl text-center font-[Montserrat,sans-serif] text-white">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide leading-tight">
+              Book a Viewing Of Our Exclusive Display Today
+            </h2>
+            <p className="mt-6 text-base sm:text-lg leading-relaxed font-normal text-white/95">
+              Complete the contact form below and we will call you back to answer and questions you may
+              have, and organise a private showing of our display home in Kellyville.
             </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <a href="tel:1300318699" className="btn-gold"><Phone className="h-4 w-4" /> 1300 318 699</a>
-              <Link to="/contact-us" className="inline-flex items-center justify-center gap-2 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] border border-white/40 text-white hover:bg-white hover:text-foreground transition-all">
-                Find where we build
+            <div className="mt-10">
+              <Link to="/contact-us" className={primaryBtnClass}>
+                Make An Enquiry
               </Link>
             </div>
-          </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="gallery-theme py-16 sm:py-20 lg:py-24">
+        <div className="container-luxe px-6">
+          <div className="mx-auto max-w-xl text-center font-[Montserrat,sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#001030] tracking-wide">Find Out More Today</h2>
+            <p className="gallery-muted mt-4 text-base sm:text-lg leading-relaxed font-normal">
+              Leave your contact details below and we&apos;ll call you back shortly to answer any questions,
+              and if you wish, book in a time for a private viewing of our display home in Kellyville.
+            </p>
+          </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setEnquirySent(true);
+            }}
+            className="mx-auto mt-10 max-w-xl font-[Montserrat,sans-serif]"
+          >
+            <p className="text-sm gallery-muted mb-6">Fields marked with an * are required</p>
+
+            <div className="space-y-5">
+              <div>
+                <label htmlFor="enquiry-full-name" className="text-sm text-[#001030]">
+                  Full Name <span className="text-[#c9a227]">*</span>
+                </label>
+                <input
+                  id="enquiry-full-name"
+                  name="fullName"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  placeholder="Full Name"
+                  className={enquiryInputClass}
+                />
+              </div>
+              <div>
+                <label htmlFor="enquiry-email" className="text-sm text-[#001030]">
+                  Email <span className="text-[#c9a227]">*</span>
+                </label>
+                <input
+                  id="enquiry-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="Email"
+                  className={enquiryInputClass}
+                />
+              </div>
+              <div>
+                <label htmlFor="enquiry-phone" className="text-sm text-[#001030]">
+                  Phone <span className="text-[#c9a227]">*</span>
+                </label>
+                <input
+                  id="enquiry-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  placeholder="Phone"
+                  className={enquiryInputClass}
+                />
+              </div>
+            </div>
+
+            <button type="submit" className={`${primaryBtnClass} mt-8 w-full sm:w-auto`}>
+              {enquirySent ? "Thank you — we'll be in touch" : "Submit"}
+            </button>
+          </form>
         </div>
       </section>
 

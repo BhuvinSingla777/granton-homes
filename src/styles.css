@@ -182,6 +182,14 @@
   .gallery-muted {
     color: var(--color-granton-muted);
   }
+
+  .granton-textured-bg {
+    background-color: var(--color-granton-surface);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 15% 40%, rgba(0, 16, 48, 0.04), transparent),
+      radial-gradient(ellipse 60% 40% at 85% 10%, rgba(201, 162, 39, 0.06), transparent),
+      linear-gradient(180deg, #f6f8fa 0%, #eef2f6 50%, #f4f7f9 100%);
+  }
 }
 
 @keyframes ken-burns { 0% { transform: scale(1.05);} 100% { transform: scale(1.15);} }
