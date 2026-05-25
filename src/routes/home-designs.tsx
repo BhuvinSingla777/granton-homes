@@ -24,7 +24,7 @@ const designs: Design[] = [
   {
     id: "soulmate",
     name: "SOULMATE",
-    img: "https://grantonhomes.com.au/wp-content/uploads/2024/10/16-Stanford-Bridge-Ave-North-Kellyville-16.jpg",
+    img: "https://grantonhomes.com.au/wp-content/uploads/2021/08/qq_7-Photo-scaled.jpg",
     beds: 4,
     baths: 4,
     cars: 2,
@@ -34,7 +34,7 @@ const designs: Design[] = [
   {
     id: "monaco",
     name: "The Monaco",
-    img: "https://grantonhomes.com.au/wp-content/uploads/2024/10/16-Stanford-Bridge-Ave-North-Kellyville-5.jpg",
+    img: "https://grantonhomes.com.au/wp-content/uploads/2022/03/Mini-French-Provincial.jpg",
     beds: 4,
     baths: 2,
     cars: 1,
@@ -43,7 +43,7 @@ const designs: Design[] = [
   {
     id: "french",
     name: "THE FRENCH PROVINCIAL",
-    img: "https://grantonhomes.com.au/wp-content/uploads/2022/03/Great-French-Provincial-1.jpg",
+    img: "https://grantonhomes.com.au/wp-content/uploads/2022/03/slierb.jpg",
     beds: 4,
     baths: 4,
     cars: 2,
@@ -54,7 +54,7 @@ const designs: Design[] = [
   {
     id: "chateau",
     name: "The Chateau",
-    img: "https://grantonhomes.com.au/wp-content/uploads/2024/10/16-Stanford-Bridge-Ave-North-Kellyville-8.jpg",
+    img: "https://grantonhomes.com.au/wp-content/uploads/2022/03/Great-French-Provincial-1.jpg",
     beds: 6,
     baths: 6,
     cars: 4,
