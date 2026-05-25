@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Activity, ArrowUpRight, MapPin, Sparkles, Tag } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Reveal } from "@/components/site/Reveal";
 import { InvestReasonsModal } from "@/components/site/InvestReasonsModal";
@@ -132,76 +133,200 @@ const developments: Development[] = [
 function DevelopmentsPage() {
   const [investModalOpen, setInvestModalOpen] = useState(false);
   const [catalinaModalOpen, setCatalinaModalOpen] = useState(false);
+  const [filter, setFilter] = useState<string>("All");
+
+  const filterOptions = useMemo(() => {
+    const statuses = Array.from(new Set(developments.map((d) => d.status)));
+    return ["All", ...statuses];
+  }, []);
+
+  const filtered = useMemo(
+    () => (filter === "All" ? developments : developments.filter((d) => d.status === filter)),
+    [filter],
+  );
 
   return (
     <SiteShell>
-      <section className="container-luxe pt-[calc(5rem+2rem)] pb-20 lg:pb-28">
-        <div className="grid sm:grid-cols-2 gap-8">
-          {developments.map((d, i) => (
-            <Reveal key={d.name} delay={(i % 2) * 80}>
-              <article className="group bg-card border border-border h-full flex flex-col overflow-hidden">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <img src={d.img} alt={d.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
-                  <div className="absolute top-4 left-4 bg-background/90 backdrop-blur text-[10px] uppercase tracking-[0.22em] px-3 py-1.5">
-                    {d.status}
-                  </div>
-                </div>
-                <div className="p-6 lg:p-8 flex flex-col gap-3 flex-1">
-                  <div>
-                    <h3 className="font-bold text-lg sm:text-xl leading-snug text-foreground">
-                      {d.title}
-                    </h3>
-                    {d.subtitle && (
-                      <p className="mt-1 text-sm text-muted-foreground">{d.subtitle}</p>
-                    )}
-                  </div>
-                  {d.description && (
-                    <p className="text-sm text-foreground/75 leading-relaxed whitespace-pre-line flex-1">
-                      {d.description}
-                    </p>
-                  )}
-                  {d.showInvestReasons && (
-                    <button
-                      type="button"
-                      onClick={() => setInvestModalOpen(true)}
-                      className="btn-ghost w-full justify-center text-center leading-snug py-3"
+      <div className="gallery-theme flex-1">
+        <section className="container-luxe pt-[calc(5rem+2rem)] pb-8 sm:pb-10">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {filterOptions.map((opt) => {
+              const active = filter === opt;
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => setFilter(opt)}
+                  className={
+                    active
+                      ? "px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] bg-[#001030] text-white border border-[#001030] transition-all duration-300 shadow-sm"
+                      : "px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] bg-white text-[#001030] border border-[#d8e0e8] hover:border-[#a8893d] hover:text-[#a8893d] transition-all duration-300"
+                  }
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="container-luxe pb-20 lg:pb-28">
+          <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
+            {filtered.map((d, i) => {
+              const featured = filter === "All" && i === 0;
+              return (
+                <Reveal
+                  key={d.name}
+                  delay={(i % 2) * 80}
+                  className={featured ? "sm:col-span-2" : ""}
+                >
+                  <article
+                    className={`group relative flex flex-col h-full bg-white border border-[#d8e0e8] overflow-hidden shadow-[0_1px_2px_rgba(0,16,48,0.04)] hover:shadow-[0_30px_60px_-25px_rgba(0,16,48,0.35)] hover:-translate-y-1 hover:border-[#a8893d]/50 transition-all duration-500 ${
+                      featured ? "lg:flex-row" : ""
+                    }`}
+                  >
+                    <div
+                      className={`relative overflow-hidden ${
+                        featured
+                          ? "aspect-[16/10] lg:aspect-auto lg:w-[60%] lg:min-h-[460px]"
+                          : "aspect-[16/10]"
+                      }`}
                     >
-                      5 Reasons
-                      <br />
-                      To Invest
-                    </button>
-                  )}
-                  {d.showCatalinaLifestyle && (
-                    <button
-                      type="button"
-                      onClick={() => setCatalinaModalOpen(true)}
-                      className="btn-ghost w-full justify-center text-center leading-snug py-3"
+                      <img
+                        src={d.img}
+                        alt={d.name}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.12]"
+                      />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#001030]/85 via-[#001030]/25 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#001030]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                      <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 bg-[#2b2b2b]/70 backdrop-blur-md border border-white/25 text-white text-[10px] uppercase tracking-[0.22em] shadow-lg">
+                        <span className="relative inline-flex h-1.5 w-1.5">
+                          <span className="absolute inset-0 rounded-full bg-[#a8893d] animate-ping opacity-60" />
+                          <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-[#a8893d]" />
+                        </span>
+                        {d.status}
+                      </div>
+
+                      <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#a8893d]/95 backdrop-blur-sm text-white text-[10px] uppercase tracking-[0.22em] shadow-lg opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <Tag className="h-3 w-3" />
+                        {d.price}
+                      </div>
+
+                      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-7 text-white">
+                        {d.subtitle && (
+                          <p className="mb-2 text-[10px] uppercase tracking-[0.28em] text-[#c9b079]">
+                            {d.subtitle}
+                          </p>
+                        )}
+                        <h3
+                          className={`font-normal leading-tight tracking-wide drop-shadow-lg ${
+                            featured
+                              ? "text-2xl sm:text-3xl lg:text-4xl"
+                              : "text-xl sm:text-2xl"
+                          }`}
+                        >
+                          {d.title}
+                        </h3>
+                        <div className="mt-3 inline-flex items-center gap-1.5 text-xs sm:text-sm text-white/90">
+                          <MapPin className="h-3.5 w-3.5 text-[#c9b079]" />
+                          {d.location}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`p-6 sm:p-7 flex flex-col gap-4 flex-1 ${
+                        featured ? "lg:w-[40%] lg:p-8 lg:gap-5" : ""
+                      }`}
                     >
-                      Location &
-                      <br />
-                      Lifestyle
-                    </button>
-                  )}
-                  <div className="mt-auto pt-2">
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Price from <span className="text-foreground">{d.price}</span>
-                    </p>
-                    <a
-                      href={d.viewHref}
-                      {...(d.viewHref.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      className="block w-full py-3 px-4 text-center text-sm font-normal text-white bg-[#c9a227] border border-[#c9a227] hover:brightness-95 transition"
-                    >
-                      {d.viewLabel}
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+                      <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#4a5f7a]">
+                        <span className="inline-flex items-center gap-1.5">
+                          <Activity className="h-3.5 w-3.5 text-[#a8893d]" />
+                          {d.status}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5 text-[#a8893d]" />
+                          {d.location}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <Tag className="h-3.5 w-3.5 text-[#a8893d]" />
+                          from {d.price}
+                        </span>
+                      </div>
+
+                      {d.description && (
+                        <p
+                          className={`text-sm text-[#001030]/75 leading-relaxed whitespace-pre-line flex-1 ${
+                            featured ? "line-clamp-6" : "line-clamp-4"
+                          }`}
+                        >
+                          {d.description}
+                        </p>
+                      )}
+
+                      {(d.showInvestReasons || d.showCatalinaLifestyle) && (
+                        <div className="flex flex-wrap gap-2">
+                          {d.showInvestReasons && (
+                            <button
+                              type="button"
+                              onClick={() => setInvestModalOpen(true)}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#001030] bg-transparent border border-[#001030] hover:bg-[#001030] hover:text-white transition-all duration-300"
+                            >
+                              <Sparkles className="h-3.5 w-3.5 text-[#a8893d]" />
+                              5 Reasons To Invest
+                            </button>
+                          )}
+                          {d.showCatalinaLifestyle && (
+                            <button
+                              type="button"
+                              onClick={() => setCatalinaModalOpen(true)}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#001030] bg-transparent border border-[#001030] hover:bg-[#001030] hover:text-white transition-all duration-300"
+                            >
+                              <Sparkles className="h-3.5 w-3.5 text-[#a8893d]" />
+                              Location & Lifestyle
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="mt-auto pt-5 border-t border-[#d8e0e8] flex items-end justify-between gap-4">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.22em] text-[#4a5f7a]">
+                            Price from
+                          </p>
+                          <p className="text-2xl sm:text-[1.6rem] font-semibold text-[#a8893d] tabular-nums leading-tight">
+                            {d.price}
+                          </p>
+                        </div>
+                        <a
+                          href={d.viewHref}
+                          {...(d.viewHref.startsWith("http")
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                          className="group/cta relative inline-flex items-center gap-2 py-3 px-5 text-sm font-normal text-white bg-[#a8893d] border border-[#a8893d] hover:text-[#a8893d] hover:border-[#a8893d] hover:shadow-lg hover:shadow-[#a8893d]/30 transition-colors duration-300 overflow-hidden"
+                        >
+                          <span className="absolute inset-0 bg-white translate-x-[-101%] group-hover/cta:translate-x-0 transition-transform duration-500 ease-out" />
+                          <span className="relative z-10">{d.viewLabel}</span>
+                          <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="py-20 text-center text-sm text-[#4a5f7a]">
+              No developments match this filter.
+            </div>
+          )}
+        </section>
+      </div>
 
       <InvestReasonsModal open={investModalOpen} onClose={() => setInvestModalOpen(false)} />
       <CatalinaLifestyleModal open={catalinaModalOpen} onClose={() => setCatalinaModalOpen(false)} />
